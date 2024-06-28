@@ -3,6 +3,7 @@ package com.pardeep.spinner
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -19,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     var new_item : String? =null
     var binding : ActivityMainBinding? = null
     lateinit var arrrayAdp : ArrayAdapter<String>
-    var spinnervalue = mutableListOf("First","Second","Third")
+    var spinnervalue = mutableListOf("Dynamic")
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         binding?.addButton?.setOnClickListener {
             Dialog(this).apply{
                 setContentView(R.layout.custom_dialog)
+                window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT)
                 var edit_text = findViewById<EditText>(R.id.editText)
                 var add_button = findViewById<Button>(R.id.add_button)
 
@@ -67,6 +69,26 @@ class MainActivity : AppCompatActivity() {
             ) {
                 var selectedItem = binding?.staticSpinner?.selectedItem as String
                 var selectedItemPosition = binding?.staticSpinner?.selectedItemPosition
+
+                // Toast on click
+                Toast.makeText(this@MainActivity, "Selected Item is ${selectedItem} and position is ${selectedItemPosition}", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
+
+
+        binding?.dynamicSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                var selectedItem = binding?.dynamicSpinner?.selectedItem as String
+                var selectedItemPosition = binding?.dynamicSpinner?.selectedItemPosition
 
                 // Toast on click
                 Toast.makeText(this@MainActivity, "Selected Item is ${selectedItem} and position is ${selectedItemPosition}", Toast.LENGTH_SHORT).show()
